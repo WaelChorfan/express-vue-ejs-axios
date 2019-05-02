@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%=title%></title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<!-- 
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.14/vuetify.js"></script>  -->
+</head>
+
+<body>
+  <!-- without veutify --> 
+  <p>Welcome to <%= title %> ! </p>
+   <div id="app">
+
+    <h2>{{greeting}}</h2>
+
+    <ul>
+      <li v-for="p in posts">{{ p.title }}
+        <button v-on:click="showPost(p)">Show post</button>
+      </li>
+    </ul>
+
+  </div>
+
+  <!-- with veutify --> 
+   <!-- <div id="app">
+    <v-app id="inspire">
+      <v-expansion-panel>
+        <v-expansion-panel-content v-for="p in posts" :key="p.id">
+          <template v-slot:header>
+            <div>{{p.title}}</div>
+          </template>
+          <v-card>
+            <v-card-text></v-card-text>
+            <v-card-text>{{p.body}}</v-card-text>
+          </v-card>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-app>
+  </div> -->
+
+
+
+
+
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        greeting: 'Welcome to posts! from vue ',
+        posts: []
+
+
+      },
+      methods: {
+        showPost: function (p) {
+          alert(p.title + "\n" + p.body)
+        },
+        getPosts: function () {
+          var self = this;
+          axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
+            .then(function (response) {
+              console.log(response.data);
+              self.posts = response.data
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+            .then(function () {
+              console.log("got the data" + self.posts)
+            });
+
+        }
+
+      },
+      mounted: function () {
+
+        this.getPosts()
+      }
+    })
+  </script>
+</body>
+
+</html>
